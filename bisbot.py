@@ -54,8 +54,7 @@ def handle_message(event):
 					event.reply_token,
 					TextSendMessage("Display name: " + profile.display_name + "\n" +
 									"Profile picture: " + profile.picture_url + "\n" +
-									"User_ID: " + profile.user_id + "\n" +
-									"Status Message: " + profile.status_message))
+									"User_ID: " + profile.user_id))
 			except LineBotApiError:
 				pass
 		
@@ -66,8 +65,7 @@ def handle_message(event):
 					event.reply_token,
 					TextSendMessage("Display name: " + profile.display_name + "\n" +
 									"Profile picture: " + profile.picture_url + "\n" +
-									"User_ID: " + profile.user_id + "\n" +
-									"Status Message: " + profile.status_message))
+									"User_ID: " + profile.user_id))
 			except LineBotApiError:
 				pass
 				
@@ -78,8 +76,7 @@ def handle_message(event):
 					event.reply_token,
 					TextSendMessage("Display name: " + profile.display_name + "\n" +
 									"Profile picture: " + profile.picture_url + "\n" +
-									"User_ID: " + profile.user_id + "\n" +
-									"Status Message: " + profile.status_message))
+									"User_ID: " + profile.user_id))
 			except LineBotApiError:
 				pass
 			
