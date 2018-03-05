@@ -43,8 +43,21 @@ def handle_message(event):
 	if text == '/help':
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage('Bison bisa diusir sekarang.'))
+			TextSendMessage("Bison bisa diusir sekarang. \n"
+							"Sama ada command 'stalk'"))
 	
+	elif text == 'stalk':
+		try:
+			profile = line_bot_api.get_profile(event.source.user_id)
+			line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage("Display name: " + profile.display_name + "\n" +
+								"Profile picture: " + profile.picture_url + "\n" +
+								"User_ID: " + profile.user_id + "\n" +
+								"Status Message: " + profile.status_message))
+		except LineBotApiError:
+			pass
+			
 	elif text == 'Pergi lu Son':
 		if isinstance(event.source, SourceGroup):
 			line_bot_api.reply_message(
