@@ -44,9 +44,9 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage("Bison bisa diusir sekarang. \n"
-							"Sama ada command 'stalk'"))
+							"Sama ada command 'Stalk'"))
 	
-	elif text == 'stalk':
+	elif text == 'Stalk':
 		try:
 			profile = line_bot_api.get_profile(event.source.user_id)
 			line_bot_api.reply_message(
