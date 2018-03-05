@@ -1,3 +1,2 @@
-# ZERO
-
-zero of my bot
+# Bisbot
+bot bison botak
