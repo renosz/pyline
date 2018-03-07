@@ -43,14 +43,13 @@ def handle_message(event):
 	text=event.message.text
 	
 	def spilit(text):
-		a,b = text.split(" ")
-		return b
+		return text.split('/wolfram ', 1)[-1]
 		
 	def wolfram(query):
 		wolfram_appid = ('83L4JP-KWW62H4Y96')
 
-		url = 'https://api.wolframalpha.com/v2/simple?i={}&appid={}'
-		return url.format(quote(query), wolfram_appid)
+		url = 'https://api.wolframalpha.com/v2/result?i={}&appid={}'
+		return requests.get(url.format(quote(query), wolfram_appid)).text
 	
 	if text == '/help':
 		line_bot_api.reply_message(
@@ -110,11 +109,10 @@ def handle_message(event):
 				event.reply_token,
 				TextSendMessage('Gabisa dodol.'))
 				
-	elif text[1:].lower().strip().startswith('wolfram'):
+	elif text[0:].lower().strip().startswith('/wolfram '):
 		line_bot_api.reply_message(
 			event.reply_token,
-			ImageSendMessage(original_content_url=(wolfram(spilit(text))), 
-							 preview_image_url=(wolfram(spilit(text)))))
+			TextSendMessage(wolfram(spilit(text))))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
