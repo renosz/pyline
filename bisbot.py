@@ -1,4 +1,6 @@
 import os
+from urllib.parse import quote
+import requests
 from flask import Flask, request, abort
 
 from linebot import (
