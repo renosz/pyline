@@ -55,7 +55,8 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage("Bison bisa diusir sekarang. \n"
-							"Sama ada command 'Stalk'"))
+							"Sama ada command 'Stalk' \n"
+							"/wolfram {input} juga bisa"))
 	
 	elif text == 'Stalk':
 		if isinstance(event.source, SourceGroup):
@@ -91,7 +92,7 @@ def handle_message(event):
 			except LineBotApiError:
 				pass
 			
-	elif text == 'Pergi lu Son':
+	elif (text == 'Pergi lu Son') or (text== 'Enyah lu Son'):
 		if isinstance(event.source, SourceGroup):
 			line_bot_api.reply_message(
 				event.reply_token,
@@ -108,6 +109,11 @@ def handle_message(event):
 			line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage('Gabisa dodol.'))
+
+	elif text=='/wolfram':
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage('command /wolfram {input}'))
 				
 	elif text[0:].lower().strip().startswith('/wolfram '):
 		line_bot_api.reply_message(
