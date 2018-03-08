@@ -1,5 +1,6 @@
 import os
 from urllib.parse import quote
+from kbbi import KBBI
 import requests
 from flask import Flask, request, abort
 
@@ -50,6 +51,20 @@ def handle_message(event):
 
 		url = 'https://api.wolframalpha.com/v2/result?i={}&appid={}'
 		return requests.get(url.format(quote(query), wolfram_appid)).text
+
+	def find_kbbi(keyword, ex=False):
+
+		try:
+			entry = KBBI(keyword)
+		except KBBI.TidakDitemukan as e:
+			result = str(e)
+		else:
+			result = "Definisi {}:\n".format(keyword)
+			if ex:
+				result += '\n'.join(entry.arti_contoh)
+			else:
+				result += str(entry)
+		return result
 	
 	if text == '/help':
 		line_bot_api.reply_message(
@@ -119,6 +134,11 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(wolfram(spilit(text))))
+			
+	elif text[0:].lower().strip().startswith('/kbbi '):
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(find_kbbi(spilit(text))))	
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
