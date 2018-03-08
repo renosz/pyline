@@ -43,8 +43,11 @@ def handle_message(event):
 
 	text=event.message.text
 	
-	def spilit(text):
+	def spilit1(text):
 		return text.split('/wolfram ', 1)[-1]
+	
+	def spilit2(text):
+		return text.split('/kbbi ', 1)[-1]
 		
 	def wolfram(query):
 		wolfram_appid = ('83L4JP-KWW62H4Y96')
@@ -133,12 +136,12 @@ def handle_message(event):
 	elif text[0:].lower().strip().startswith('/wolfram '):
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(wolfram(spilit(text))))
+			TextSendMessage(wolfram(spilit1(text))))
 			
 	elif text[0:].lower().strip().startswith('/kbbi '):
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(find_kbbi(spilit(text))))	
+			TextSendMessage(find_kbbi(spilit2(text))))	
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
