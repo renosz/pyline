@@ -1,2 +1,2 @@
 # Bisbot
-bot bison botak
+Bisbot... A robot barista @ Waroenk Kopi
