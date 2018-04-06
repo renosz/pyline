@@ -1,9 +1,12 @@
+import errno
 import os
+import sys
+import tempfile
+from argparse import ArgumentParser
 from urllib.parse import quote
 from kbbi import KBBI
 import requests
 from flask import Flask, request, abort
-
 from linebot import (
 	LineBotApi, WebhookHandler
 )
@@ -11,7 +14,14 @@ from linebot.exceptions import (
 	InvalidSignatureError
 )
 from linebot.models import (
-	MessageEvent, TextMessage, TextSendMessage, SourceGroup, SourceRoom
+	MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, SourceGroup, SourceRoom,
+	TemplateSendMessage, ConfirmTemplate, MessageTemplateAction,
+	ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URITemplateAction,
+	PostbackTemplateAction, DatetimePickerTemplateAction,
+	CarouselTemplate, CarouselColumn, PostbackEvent,
+	StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+	ImageMessage, VideoMessage, AudioMessage, FileMessage,
+	UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent
 )
 
 app = Flask(__name__)
@@ -49,6 +59,18 @@ def handle_message(event):
 	def spilit2(text):
 		return text.split('/kbbi ', 1)[-1]
 		
+	def split3(text):
+		return text.split('/echo ', 1)[-1]
+
+	def split4(text):
+		return text.split('/wolframs ', 1)[-1]
+		
+	def wolframs(query):
+		wolfram_appid = ('83L4JP-TWUV8VV7J7')
+
+		url = 'https://api.wolframalpha.com/v2/simple?i={}&appid={}'
+		return url.format(quote(query), wolfram_appid)
+	
 	def wolfram(query):
 		wolfram_appid = ('83L4JP-KWW62H4Y96')
 
@@ -141,7 +163,18 @@ def handle_message(event):
 	elif text[0:].lower().strip().startswith('/kbbi '):
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage(find_kbbi(spilit2(text))))	
+			TextSendMessage(find_kbbi(spilit2(text))))
+			
+	elif text[0:].lower().strip().startswith('/wolframs '):
+		line_bot_api.reply_message(
+			event.reply_token,
+			ImageSendMessage(original_content_url= wolframs(split4(text)),
+								preview_image_url= wolframs(split4(text))))
+								
+	elif text[0:].lower().strip().startswith('/echo ') :
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(split3(text)))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
