@@ -175,6 +175,31 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(split3(text)))
+			
+@handler.add(MessageEvent, message=StickerMessage)
+def handle_sticker_message(event):
+	line_bot_api.reply_message(
+		event.reply_token,
+		StickerSendMessage(
+			package_id=event.message.package_id,
+			sticker_id=event.message.sticker_id)
+	)
+
+@handler.add(MessageEvent, message=LocationMessage)
+def handle_location_message(event):
+	line_bot_api.reply_message(
+		event.reply_token,
+		LocationSendMessage(
+			title=event.message.title, address=event.message.address,
+			latitude=event.message.latitude, longitude=event.message.longitude
+		)
+	)
+
+@handler.add(JoinEvent)
+def handle_join(event):
+	line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text='Barista is here... ' + event.source.type + ' apa ini?'))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
