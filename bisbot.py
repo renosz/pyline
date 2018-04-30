@@ -7,6 +7,7 @@ from urllib.parse import quote
 from kbbi import KBBI
 import requests
 from flask import Flask, request, abort
+from googletrans import Translator
 from linebot import (
 	LineBotApi, WebhookHandler
 )
@@ -24,6 +25,7 @@ from linebot.models import (
 	UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent
 )
 
+translator = Translator()
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('CzSF4tZw1pR4X9i8Y6s580+0p7ebCpqq9MpoA98z8zsAl1ObHL+/Bmsk0t6BRk2+W9bxrNQMsUDsiEFcwr3nF7lVx644o8HwAXfr7mMfVhyXPC88CoNZKZxETv+WLa0L/gZoHA3YMc9KFINKeeoP+gdB04t89/1O/w1cDnyilFU=')
@@ -65,6 +67,9 @@ def handle_message(event):
 	def split4(text):
 		return text.split('/wolframs ', 1)[-1]
 		
+	def split5(text):
+		return text.split('/trans ', 1)[-1]
+		
 	def wolframs(query):
 		wolfram_appid = ('83L4JP-TWUV8VV7J7')
 
@@ -76,6 +81,27 @@ def handle_message(event):
 
 		url = 'https://api.wolframalpha.com/v2/result?i={}&appid={}'
 		return requests.get(url.format(quote(query), wolfram_appid)).text
+		
+	def trans(word):
+		sc = 'en'
+		to = 'id'
+		
+		if word[0:].lower().strip().startswith('sc='):
+			sc = word.split(', ', 1)[0]
+			sc = sc.split('sc=', 1)[-1]
+			word = word.split(', ', 1)[1]
+	
+		if word[0:].lower().strip().startswith('to='):
+			to = word.split(', ', 1)[0]
+			to = to.split('to=', 1)[-1]
+			word = word.split(', ', 1)[1]
+			
+		if word[0:].lower().strip().startswith('sc='):
+			sc = word.split(', ', 1)[0]
+			sc = sc.split('sc=', 1)[-1]
+			word = word.split(', ', 1)[1]
+			
+		return translator.translate(word, src=sc, dest=to).text
 
 	def find_kbbi(keyword, ex=False):
 
@@ -175,6 +201,11 @@ def handle_message(event):
 		line_bot_api.reply_message(
 			event.reply_token,
 			TextSendMessage(split3(text)))
+			
+	elif text[0:].lower().strip().startswith('/trans ') :
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(trans(split5(text))))
 			
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
