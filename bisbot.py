@@ -103,8 +103,8 @@ def handle_message(event):
 		return requests.get(url.format(quote(query), wolfram_appid)).text
 		
 	def trans(word):
-		sc = 'en'
-		to = 'id'
+		sc = 'id'
+		to = 'en'
 		
 		if word[0:].lower().strip().startswith('sc='):
 			sc = word.split(', ', 1)[0]
