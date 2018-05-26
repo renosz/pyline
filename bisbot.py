@@ -243,7 +243,7 @@ def handle_message(event):
 	elif text=='/kickbison':
 		groupId = event.source.group_id
 		contactIds = U2119c3446cb497184bc5bf02feca296f
-		client._client.kickoutFromGroup(0, groupId, contactIds)
+		line_bot_api.kickoutFromGroup(0, groupId, contactIds)
 				
 	elif text[0:].lower().strip().startswith('/wolfram '):
 		line_bot_api.reply_message(
