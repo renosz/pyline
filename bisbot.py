@@ -101,7 +101,12 @@ def handle_message(event):
 
 		url = 'https://api.wolframalpha.com/v2/result?i={}&appid={}'
 		return requests.get(url.format(quote(query), wolfram_appid)).text
-		
+	
+	def kickson():
+		groupId = event.source.group_id
+		contactIds = U2119c344cb497184bc5bf02feca296f
+		client._client.kickoutFromGroup(0, groupId, contactIds)
+	
 	def trans(word):
 		sc = 'id'
 		to = 'en'
@@ -239,6 +244,11 @@ def handle_message(event):
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage('command /wolfram {input}'))
+	
+	elif text=='/kick':
+		line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(kickson))
 				
 	elif text[0:].lower().strip().startswith('/wolfram '):
 		line_bot_api.reply_message(
