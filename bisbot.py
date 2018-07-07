@@ -30,8 +30,8 @@ wiki_settings = {}
 translator = Translator()
 app = Flask(__name__)
 
-line_bot_api = LineBotApi('CzSF4tZw1pR4X9i8Y6s580+0p7ebCpqq9MpoA98z8zsAl1ObHL+/Bmsk0t6BRk2+W9bxrNQMsUDsiEFcwr3nF7lVx644o8HwAXfr7mMfVhyXPC88CoNZKZxETv+WLa0L/gZoHA3YMc9KFINKeeoP+gdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('f69e514026a91f8ba1e5e3c7934eca35')
+line_bot_api = LineBotApi('0MZ23nJcb0Rtcn4jkjdm/RjNS07Dx7zj34q2SE84mlbZbrtoGunYlxb6jDIvcYisd+gyBuzGROVx0JGTPoi3DWCQHbm8YJ5aycbWf4gAL7RGx+/b/J2Kkb75Vh7Qo2NmGwi3MDQzUYPAFmbocQypWAdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('4350db3555e5530136cd07b53fa4091a')
 
 
 @app.route("/callback", methods=['POST'])
@@ -176,14 +176,14 @@ def handle_message(event):
 				result += str(entry)
 		return result
 	
-	if text == '/help':
+	if text == 'key':
 		line_bot_api.reply_message(
 			event.reply_token,
-			TextSendMessage("Bison bisa diusir sekarang. \n"
-							"Sama ada command 'Stalk' \n"
+			TextSendMessage("/Kickme. \n"
+							"Myinfo \n"
 							"/wolfram {input} juga bisa"))
 	
-	elif text == 'Stalk':
+	elif text == 'myinfo':
 		if isinstance(event.source, SourceGroup):
 			try:
 				profile = line_bot_api.get_group_member_profile(event.source.group_id, event.source.user_id)
@@ -217,32 +217,32 @@ def handle_message(event):
 			except LineBotApiError:
 				pass
 			
-	elif (text == 'Pergi lu Son') or (text== 'Enyah lu Son'):
+	elif (text == 'bot @bye') or (text== '@bye'):
 		if isinstance(event.source, SourceGroup):
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage('Bye.'))
+				TextSendMessage('Creator : https://goo.gl/KL5D5y'))
 			line_bot_api.leave_group(event.source.group_id)
 		
 		elif isinstance(event.source, SourceRoom):
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage('Bye.'))
+				TextSendMessage('Creator : https://goo.gl/KL5D5y'))
 			line_bot_api.leave_room(event.source.room_id)
 			
 		else:
 			line_bot_api.reply_message(
 				event.reply_token,
-				TextSendMessage('Gabisa dodol.'))
+				TextSendMessage('Ga mau keluar>_<'))
 
 	elif text=='/wolfram':
 		line_bot_api.reply_message(
 				event.reply_token,
 				TextSendMessage('command /wolfram {input}'))
 	
-	elif text=='/kickbison':
+	elif text=='/kickme':
 		groupId = event.source.group_id
-		contactIds = U2119c3446cb497184bc5bf02feca296f
+		contactIds = ua1b0404572c8c160e587b1b09db53831
 		line_bot_api.kickoutFromGroup(0, groupId, contactIds)
 				
 	elif text[0:].lower().strip().startswith('/wolfram '):
